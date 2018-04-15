@@ -1,0 +1,1639 @@
+{
+	"info": {
+		"name": "final project",
+		"_postman_id": "baaf825b-d3bf-48c3-bc58-abd149c33cbd",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post User No Oauth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "10ed2a7b-fc3c-4bc8-9d8f-5a224cad6763",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"No OAuth2.0\", function () {",
+							"    pm.response.to.have.status(500);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"User One\", \"email\": \"userone@email.com\"}"
+				},
+				"url": {
+					"raw": "{{url}}/user",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Post user1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a130abf6-8146-4781-92a8-365623be8d4a",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"pm.environment.set(\"userId1\", body.id);",
+							"pm.environment.set(\"userUrl1\", body.self);",
+							"pm.environment.set(\"userName1\", body.name);",
+							"pm.environment.set(\"userEmail1\", body.email);",
+							"pm.environment.set(\"userToken1\", body.token);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"User One\", \"email\": \"userone@email.com\"}"
+				},
+				"url": {
+					"raw": "{{url}}/user",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Post Invalid Access Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8dd721f0-24af-47b6-9b8a-531a0f280870",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Access Token Used\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{user1Post}}"
+				},
+				"url": {
+					"raw": "{{url}}/user",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get user1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bd0b3ddd-83ac-4de6-a3da-ddc82d8306e4",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"var id = body.id;",
+							"var name = body.name;",
+							"var email = body.email;",
+							"var token = body.token;",
+							"",
+							"pm.test(\"id matches\", function () {",
+							"    pm.expect(id).to.equal(pm.variables.get('userId1'));",
+							"});",
+							"pm.test(\"name matches\", function () {",
+							"    pm.expect(name).to.equal(pm.variables.get('userName1'));",
+							"});",
+							"pm.test(\"email matches\", function () {",
+							"    pm.expect(email).to.equal(pm.variables.get('userEmail1'));",
+							"});",
+							"pm.test(\"token matches\", function () {",
+							"    pm.expect(token).to.equal(pm.variables.get('userToken1'));",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}{{userUrl1}}",
+					"host": [
+						"{{url}}{{userUrl1}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Patch user1 with wrong Oauth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5124bca7-f2b8-43da-a313-bb2ff3d87600",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Wrong Oauth\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_BTM2vbPsHZUUDOtn__v5rGAQn3PxJdxFIAw5vd5m1q2v1BL78novwleGdyx7TVKdaxdxoUbH6HjbK5EAdp3-pQaIVOI8SxCzNyZ9SJH4Q30ZFoaGWgwPbAIgbA",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"New Name\"}"
+				},
+				"url": {
+					"raw": "{{url}}{{userUrl1}}",
+					"host": [
+						"{{url}}{{userUrl1}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Patch user1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "060890af-c23b-4ea5-b975-afe01a519aaa",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"New Name\"}"
+				},
+				"url": {
+					"raw": "{{url}}{{userUrl1}}",
+					"host": [
+						"{{url}}{{userUrl1}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get user1 after Patch",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "db5f7501-bb56-487d-b862-cbcfaeb4f40c",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"var name = body.name;",
+							"",
+							"pm.test(\"name matches\", function () {",
+							"    pm.expect(name).to.equal(\"New Name\");",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"New Name\"}"
+				},
+				"url": {
+					"raw": "{{url}}{{userUrl1}}",
+					"host": [
+						"{{url}}{{userUrl1}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Post ToDo No Oauth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "10ed2a7b-fc3c-4bc8-9d8f-5a224cad6763",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"No OAuth2.0\", function () {",
+							"    pm.response.to.have.status(500);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"task\": \"Task One\"}"
+				},
+				"url": {
+					"raw": "{{url}}/todo",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"todo"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Post Todo1 to User1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ec338577-b6c7-453f-9bbd-944f1393d47f",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"pm.environment.set(\"todoId1\", body.id);",
+							"pm.environment.set(\"todoUrl1\", body.self);",
+							"pm.environment.set(\"todoTask1\", body.task);",
+							"pm.environment.set(\"todoUserID1\", body.user_id);",
+							"pm.environment.set(\"todoCompleted1\", body.completed);",
+							"pm.environment.set(\"tododate1\", body.date)"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"task\": \"Task One\"}"
+				},
+				"url": {
+					"raw": "{{url}}/todo",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"todo"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Todo1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "49990a23-ffad-498c-8279-38b83bc653da",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"var id = body.id;",
+							"var task = body.task;",
+							"var user_id = body.user_id;",
+							"var completed = body.completed;",
+							"var date = body.date;",
+							"",
+							"pm.test(\"id matches\", function () {",
+							"    pm.expect(id).to.equal(pm.variables.get('todoId1'));",
+							"});",
+							"pm.test(\"task matches\", function () {",
+							"    pm.expect(task).to.equal(pm.variables.get('todoTask1'));",
+							"});",
+							"pm.test(\"user_id matches\", function () {",
+							"    pm.expect(user_id).to.equal(pm.variables.get('todoUserID1'));",
+							"});",
+							"pm.test(\"completed matches\", function () {",
+							"    pm.expect(completed).to.equal(pm.variables.get('todoCompleted1'));",
+							"});",
+							"pm.test(\"date matches\", function () {",
+							"    pm.expect(date).to.equal(pm.variables.get('tododate1'));",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"task\": \"Task One\"}"
+				},
+				"url": {
+					"raw": "{{url}}{{todoUrl1}}",
+					"host": [
+						"{{url}}{{todoUrl1}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Patch Todo1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d7d22c1d-12ae-447f-bb9f-39de06ac9f52",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"task\": \"New Task\", \"completed\": true}"
+				},
+				"url": {
+					"raw": "{{url}}{{todoUrl1}}",
+					"host": [
+						"{{url}}{{todoUrl1}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Todo1 after Patch",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ba605fc5-fd10-4d10-a169-0bcc6ab16ccf",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"var task = body.task;",
+							"var completed = body.completed",
+							"",
+							"pm.test(\"task matches\", function () {",
+							"    pm.expect(task).to.equal(\"New Task\");",
+							"});",
+							"pm.test(\"completed matches\", function () {",
+							"    pm.expect(completed).to.equal(true);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}{{todoUrl1}}",
+					"host": [
+						"{{url}}{{todoUrl1}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Post User2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b3887488-0133-4488-b5a4-4ca3aa82ed4d",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"pm.environment.set(\"userId2\", body.id);",
+							"pm.environment.set(\"userUrl2\", body.self);",
+							"pm.environment.set(\"userName2\", body.name);",
+							"pm.environment.set(\"userEmail2\", body.email);",
+							"pm.environment.set(\"userToken2\", body.token);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_BTM2vbPsHZUUDOtn__v5rGAQn3PxJdxFIAw5vd5m1q2v1BL78novwleGdyx7TVKdaxdxoUbH6HjbK5EAdp3-pQaIVOI8SxCzNyZ9SJH4Q30ZFoaGWgwPbAIgbA",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"User Two\", \"email\": \"user2@email.com\"}"
+				},
+				"url": {
+					"raw": "{{url}}/user",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Try Get User1 data with User2 token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b82f4d86-92ee-41ac-b1eb-a64d1261a17e",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Unauthorized\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_BTM2vbPsHZUUDOtn__v5rGAQn3PxJdxFIAw5vd5m1q2v1BL78novwleGdyx7TVKdaxdxoUbH6HjbK5EAdp3-pQaIVOI8SxCzNyZ9SJH4Q30ZFoaGWgwPbAIgbA",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}{{userUrl1}}",
+					"host": [
+						"{{url}}{{userUrl1}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Post todo2 to User1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "abafe1a2-ea13-44a1-b728-61fa5da2928a",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"pm.environment.set(\"todoId2\", body.id);",
+							"pm.environment.set(\"todoUrl2\", body.self);",
+							"pm.environment.set(\"todoTask2\", body.task);",
+							"pm.environment.set(\"todoUserID2\", body.user_id);",
+							"pm.environment.set(\"todoCompleted2\", body.completed);",
+							"pm.environment.set(\"tododate2\", body.date);"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"task\": \"Task Two\"}"
+				},
+				"url": {
+					"raw": "{{url}}/todo",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"todo"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "User1 todoList",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7aba8606-79eb-496e-bdf6-f8e57c0905ba",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var data = pm.response.json();",
+							"pm.test(\"2 todo items\", function () {",
+							"    pm.expect(data).to.have.lengthOf(2);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}{{userUrl1}}/todos",
+					"host": [
+						"{{url}}{{userUrl1}}"
+					],
+					"path": [
+						"todos"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Post todo3 to user2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "564e773c-a63e-481e-a185-8a7713181a01",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"pm.environment.set(\"todoId3\", body.id);",
+							"pm.environment.set(\"todoUrl3\", body.self);",
+							"pm.environment.set(\"todoTask3\", body.task);",
+							"pm.environment.set(\"todoUserID3\", body.user_id);",
+							"pm.environment.set(\"todoCompleted3\", body.completed);",
+							"pm.environment.set(\"tododate3\", body.date)"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_BTM2vbPsHZUUDOtn__v5rGAQn3PxJdxFIAw5vd5m1q2v1BL78novwleGdyx7TVKdaxdxoUbH6HjbK5EAdp3-pQaIVOI8SxCzNyZ9SJH4Q30ZFoaGWgwPbAIgbA",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"task\": \"Task Three\"}"
+				},
+				"url": {
+					"raw": "{{url}}/todo",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"todo"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete todo2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "10272556-acfd-4700-8eae-6d8902418399",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}{{todoUrl2}}",
+					"host": [
+						"{{url}}{{todoUrl2}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "user1 todo list after todo2 deleted",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "62b73696-33ad-437a-bb78-2be03a591ba9",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var data = pm.response.json();",
+							"pm.test(\"1 todo item1\", function () {",
+							"    pm.expect(data).to.have.lengthOf(1);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}{{userUrl1}}/todos",
+					"host": [
+						"{{url}}{{userUrl1}}"
+					],
+					"path": [
+						"todos"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user2 wrong Oauth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1bc30dd7-bc3a-42a1-a207-46c887ed9021",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Wrong Oauth\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}{{userUrl2}}",
+					"host": [
+						"{{url}}{{userUrl2}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2fb1e38e-75e2-48e8-8911-7fb8f5cc89a7",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_BTM2vbPsHZUUDOtn__v5rGAQn3PxJdxFIAw5vd5m1q2v1BL78novwleGdyx7TVKdaxdxoUbH6HjbK5EAdp3-pQaIVOI8SxCzNyZ9SJH4Q30ZFoaGWgwPbAIgbA",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}{{userUrl2}}",
+					"host": [
+						"{{url}}{{userUrl2}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Make sure user2 deleted",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fdd28da0-7a00-4b17-a02c-8fda004fabc7",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Invalid ID\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}{{userUrl2}}",
+					"host": [
+						"{{url}}{{userUrl2}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "todo assigned to user2 deleted",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "029f2fef-5ac5-451c-9d15-0f9d60fadaaa",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Invalid ID\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_BTM2vbPsHZUUDOtn__v5rGAQn3PxJdxFIAw5vd5m1q2v1BL78novwleGdyx7TVKdaxdxoUbH6HjbK5EAdp3-pQaIVOI8SxCzNyZ9SJH4Q30ZFoaGWgwPbAIgbA",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}{{todoUrl3}}",
+					"host": [
+						"{{url}}{{todoUrl3}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get user w/o ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d9bc5cf7-eb8d-4dff-b441-564a2bb484fd",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"No ID\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/user",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get todo w/o ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6e4463e6-c842-452a-b531-40ab0137935d",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"No ID\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/todo",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"todo"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get all todos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a3e8e041-2e2d-42b9-a584-02e0dd21039a",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/todos",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"todos"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get all todos w/o Oauth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b83899b3-8bee-4976-b6b5-8332924b9775",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"NO OAUTH\", function () {",
+							"    pm.response.to.have.status(500);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/todos",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"todos"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "75615816-e4a3-436f-a130-e373360215f3",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users w/o Oauth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "20c4d2a3-d1af-4919-8856-ac282e90b4e9",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"NO OAUTH\", function () {",
+							"    pm.response.to.have.status(500);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE ALL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "78c522d4-356a-4662-b2ed-5a3001686b8f",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ya29.Glx_Bfxhx5ylY7vGY-fcLVEFK5x1Z1dIC6dU_9C1roD0pTUAOOUO9t-87GJAI6TSq1FXwQRJ1hxncpzV_JaZKNMwp7kNLKl99awi0FQd3dilXc5RKQ9wZyBJmyTgXw",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/deleteall",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"deleteall"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

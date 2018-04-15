@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.oregonstate.olivasd.androidui.Activity4">
+
+
+        <TextView
+            android:id="@+id/num1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="37dp"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="123dp"
+            android:text="@string/num1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <TextView
+            android:id="@+id/num2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/num1"
+            android:layout_marginLeft="61dp"
+            android:layout_marginStart="61dp"
+            android:layout_toEndOf="@+id/num1"
+            android:layout_toRightOf="@+id/num1"
+            android:text="@string/num2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <TextView
+            android:id="@+id/num3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/num2"
+            android:layout_centerHorizontal="true"
+            android:text="@string/num3"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <TextView
+            android:id="@+id/num4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/num2"
+            android:layout_alignStart="@+id/num2"
+            android:layout_below="@+id/num3"
+            android:text="@string/num4"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <TextView
+            android:id="@+id/num5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/num1"
+            android:layout_alignStart="@+id/num1"
+            android:layout_alignTop="@+id/num4"
+            android:layout_marginTop="35dp"
+            android:text="@string/num5"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+</RelativeLayout>
+

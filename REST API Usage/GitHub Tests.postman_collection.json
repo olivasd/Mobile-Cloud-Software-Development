@@ -1,0 +1,749 @@
+{
+	"info": {
+		"name": "GitHub Tests",
+		"_postman_id": "3349d146-9dc7-d6cc-d94b-726c581b015b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. 30 Gists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "866b756a-19ab-4e8b-b215-e684a4e92595",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"30 public Gists are returned\", function () {",
+							"    var data = pm.response.json();",
+							"    pm.expect(data).to.have.lengthOf(30);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{oAuthToken}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "https://api.github.com/gists/public?page=1&per_page=30",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"public"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"equals": true
+						},
+						{
+							"key": "per_page",
+							"value": "30",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "2. wolfordj gists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6667303f-a0ed-496c-a984-a26f499815a1",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"wolfordj has at least 1 Gist\", function () {",
+							"    var data = pm.response.json();",
+							"    pm.expect(data).to.have.lengthOf.at.least(1);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{oAuthToken}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "https://api.github.com/users/wolfordj/gists",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"users",
+						"wolfordj",
+						"gists"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "3a. Get before POST count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "244ecafd-0e5e-4d93-abf4-ab9c9bb61ba1",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"pm.environment.set(\"beforePost\", body.length);"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{oAuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://api.github.com/gists",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "3b. Create new Gist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "126bcec0-cc23-4395-aed9-5b25e60f9641",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"var rawUrl = body.files.newGist.raw_url;",
+							"var id = body.id;",
+							"",
+							"pm.environment.set(\"gistContent\", rawUrl);",
+							"pm.environment.set(\"gistId\", id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{oAuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"description\": \"Creating a Gist\",\r\n  \"public\": true,\r\n  \"files\": {\r\n    \"newGist\": {\r\n      \"content\": \"{{contents}}\"\r\n    }\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "https://api.github.com/gists",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "3c. Get after POST count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "02e96678-0987-4c1f-b11c-979a9e4cad78",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Gist count increased by one\", function () {",
+							"    var data = pm.response.json();",
+							"    var afterPost = parseInt(pm.variables.get(\"beforePost\")) + 1;",
+							"    pm.expect(data).to.have.lengthOf(afterPost);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{oAuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://api.github.com/gists",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "4. Comfirm contents",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "851b35c0-0716-45a5-9aff-a2dc42b86d53",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Contents match\", function () {",
+							"    pm.expect(responseBody).to.equal(pm.variables.get('contents'));",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{oAuthToken}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{gistContent}}",
+					"host": [
+						"{{gistContent}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "5a. Edit contents",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c8d5aee8-413a-4b40-bb5a-043cd36d1392",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"var rawUrl = body.files.newGist.raw_url;",
+							"",
+							"pm.environment.set(\"updatedGistContent\", rawUrl);"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{oAuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"description\": \"the description for this gist\",\r\n  \"files\": {\r\n    \"newGist\": {\r\n      \"content\": \"{{editedContent}}\"\r\n    }\r\n   \r\n}"
+				},
+				"url": {
+					"raw": "https://api.github.com/gists/{{gistId}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"{{gistId}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "5b. Confirm edit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9bd90b10-b573-43e5-93aa-6008462a3d44",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Edit matches\", function () {",
+							"    pm.expect(responseBody).to.equal(pm.variables.get('editedContent'));",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{oAuthToken}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{updatedGistContent}}",
+					"host": [
+						"{{updatedGistContent}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "6. Star a Gist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fdcdf401-2539-4d08-987a-bc8b2e844e26",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"var starred = parseInt(pm.variables.get('starredGists')) + 1;",
+							"pm.environment.set(\"starredGists\", starred);"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{oAuthToken}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "https://api.github.com/gists/{{gistId}}/star",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"{{gistId}}",
+						"star"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "7. list of Starred Gists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cd5d5d53-bdb4-4d45-a180-8fad7bfc980c",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Starred Count is correct\", function () {",
+							"    var data = pm.response.json();",
+							"    pm.expect(data).to.have.lengthOf(pm.variables.get(\"starredGists\"));",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"pm.test(\"Gist Id matches\", function () {",
+							"    pm.expect(body[0].id).to.equal(pm.variables.get('gistId'));",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{oAuthToken}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "https://api.github.com/gists/starred",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"starred"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "8a. unstar Gist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ac2b347d-1f7b-4496-b704-5ceda229e579",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"var starred = parseInt(pm.variables.get(\"starredGists\")) - 1;",
+							"pm.environment.set(\"starredGists\", starred);"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{oAuthToken}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "https://api.github.com/gists/{{gistId}}/star",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"{{gistId}}",
+						"star"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "8b. Confirm unstarring",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "44f80f7e-11d1-49e6-b2b2-ef3fb05f7415",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var checker = 0;",
+							"pm.test(\"Unstarred gist not in starred list\", function () {",
+							"    var data = pm.response.json();",
+							"    for(var i = 0; i < data.length; i++) {",
+							"        if(data[i].id === pm.variables.get('gistId')) {",
+							"            checker = 1;",
+							"        }",
+							"    }",
+							"    pm.expect(checker).to.equal(0);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{oAuthToken}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "https://api.github.com/gists/starred",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"starred"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "9a. Delete Gist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b802f1b-62ac-40d2-bedb-17f6f423a652",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{oAuthToken}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "https://api.github.com/gists/{{gistId}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"{{gistId}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "9b. Confirm Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9bae4457-c50d-4340-918d-d97af0b96f5e",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var checker = 0;",
+							"pm.test(\"Deleted gist is not present\", function () {",
+							"    var data = pm.response.json();",
+							"    for(var i = 0; i < data.length; i++) {",
+							"        if(data[i].id === pm.variables.get('gistId')) {",
+							"            checker = 1;",
+							"        }",
+							"    }",
+							"    pm.expect(checker).to.equal(0);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{oAuthToken}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "https://api.github.com/gists",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "accessToken",
+				"value": "ff870af3b48498a55ee8020d44c61bae6785ce6d",
+				"type": "string"
+			},
+			{
+				"key": "tokenType",
+				"value": "bearer",
+				"type": "string"
+			}
+		]
+	}
+}

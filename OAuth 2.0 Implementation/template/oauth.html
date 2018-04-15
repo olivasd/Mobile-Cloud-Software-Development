@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>OAuth 2.0 -- Olivas</title>
+		<style type="text/css">
+        	body {
+				background-image: url("https://cdn.pixabay.com/photo/2016/11/19/14/00/code-1839406_1280.jpg");
+				background-size: cover;
+				font-size: 16px;
+				font-family: 'Lato', sans-serif;
+				margin: 0;
+				color: white;
+				text-align:center;
+				text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+			}
+			div {
+				background: blue;
+			    width: 500px;
+			    height: auto;
+			    margin: auto;
+			    padding-bottom: 10px;
+			    padding-top: 5px;
+			}
+			a {
+    			color: hotpink;
+			}
+        </style>
+
+	</head>
+	<body>
+		<h1>SUCCESS!</h1>
+		<div>
+			<p>Information for <strong>{{ display_name }}:</strong></p>
+			<p><strong>First Name:</strong> {{ first }}</p>
+			<p><strong>Last Name:</strong> {{ last }}</p>
+			<p><strong>URL:</strong> <a href={{ url }}>{{ url }}</a></p>
+			<p><strong>State:</strong> {{ state }}</p>	
+		</div>
+		<br>
+		<div>
+			<p>This information is provided by the Google+ API because<br>
+				of an access token that was provided to me when you<br>
+				signed into your Google+ account on the previous screen.<br>
+				Since I have authenticated you with Google+, I authorize you<br>
+				access to this site. Well worth it, huh?</p>
+		</div>
+
+	</body>
+</html>

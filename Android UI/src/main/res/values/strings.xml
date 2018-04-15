@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Android UI - Olivas</string>
+    <string name="activity_2">Vertical Layout</string>
+    <string name="activity_1">Horizontal Layout</string>
+    <string name="activity_3">Grid Layout</string>
+    <string name="activity_4">Relative Layout</string>
+    <string name="num1">1</string>
+    <string name="num2">2</string>
+    <string name="num3">3</string>
+    <string name="num4">4</string>
+    <string name="num5">5</string>
+    <string name="num6">6</string>
+    <string name="num7">7</string>
+    <string name="num8">8</string>
+    <string name="num9">9</string>
+    <string name="num10">10</string>
+</resources>

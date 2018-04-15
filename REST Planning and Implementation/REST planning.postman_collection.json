@@ -1,0 +1,1303 @@
+{
+	"info": {
+		"name": "REST planning",
+		"_postman_id": "f6a5f2d0-8197-ce87-8965-f49836de122d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post Boat",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cfbf49b9-266c-4fae-ad11-42a4ae26f7fa",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"pm.environment.set(\"boatId\", body.id);",
+							"pm.environment.set(\"boatUrl\", body.self);",
+							"pm.environment.set(\"boatName\", body.name);",
+							"pm.environment.set(\"boatType\", body.type);",
+							"pm.environment.set(\"boatLength\", body.length);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"name\": \"boat1\",\n\"length\": 50,\n\"type\": \"sail boat\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/boat",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Boat",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b30dd672-dfeb-4eff-b26e-3577cebce0e3",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"var id = body.id;",
+							"var name = body.name;",
+							"var type = body.type;",
+							"var length = body.length;",
+							"var atSea = body.at_sea",
+							"",
+							"pm.test(\"id matches\", function () {",
+							"    pm.expect(id).to.equal(pm.variables.get('boatId'));",
+							"});",
+							"pm.test(\"name matches\", function () {",
+							"    pm.expect(name).to.equal(pm.variables.get('boatName'));",
+							"});",
+							"pm.test(\"type matches\", function () {",
+							"    pm.expect(type).to.equal(pm.variables.get('boatType'));",
+							"})",
+							"pm.test(\"length matches\", function () {",
+							"    pm.expect(length).to.equal(parseInt(pm.variables.get('boatLength')));",
+							"});",
+							"pm.test(\"at_sea matches\", function () {",
+							"    pm.expect(atSea).to.equal(true);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}{{boatUrl}}",
+					"host": [
+						"{{URL}}{{boatUrl}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Post Slip",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5804e4c2-32d7-41ac-aa7c-ee74a3ff5b04",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"pm.environment.set(\"slipId\", body.id);",
+							"pm.environment.set(\"slipUrl\", body.self);",
+							"pm.environment.set(\"currentBoat\", body.current_boat);",
+							"pm.environment.set(\"slipNumber\", body.number);",
+							"pm.environment.set(\"arrivalDate\", body.arrival_date);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"number\": 1}"
+				},
+				"url": {
+					"raw": "{{URL}}/slip",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slip"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Slip",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "85b4ddaa-f317-4057-8b77-615e70a7ec5b",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"var id = body.id;",
+							"var number = body.number;",
+							"var currentBoat = body.current_boat;",
+							"var arrivalDate = body.arrival_date;",
+							"",
+							"pm.test(\"id matches\", function () {",
+							"    pm.expect(id).to.equal(pm.variables.get('slipId'));",
+							"});",
+							"pm.test(\"number matches\", function () {",
+							"    pm.expect(number).to.equal(parseInt(pm.variables.get('slipNumber')));",
+							"});",
+							"pm.test(\"current boat matches\", function () {",
+							"    pm.expect(currentBoat).to.equal(null);",
+							"});",
+							"pm.test(\"arrival date\", function () {",
+							"    pm.expect(arrivalDate).to.equal(null);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}{{slipUrl}}",
+					"host": [
+						"{{URL}}{{slipUrl}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Boat",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dd386200-1c49-4206-b853-9ce5aa783c65",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/boat/{{boatId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat",
+						"{{boatId}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Boat Deletion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b3699287-335c-42fb-9fce-3661c574eaf5",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var checker = 0;",
+							"pm.test(\"Deleted boat is not present\", function () {",
+							"    var body = JSON.parse(responseBody);",
+							"    for(var i = 0; i < body.length; i++) {",
+							"        if(body[i].id === pm.variables.get('boatId')) {",
+							"            checker = 1;",
+							"        }",
+							"    }",
+							"    pm.expect(checker).to.equal(0);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/boats",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boats"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Slip",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c9b4b41e-6221-4ba7-8a6a-05f506effbfe",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/slip/{{slipId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slip",
+						"{{slipId}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Slip Deletion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a2a5a04-2c26-43e9-ac38-6e1b35a16c2d",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var checker = 0;",
+							"pm.test(\"Deleted slip is not present\", function () {",
+							"    var body = JSON.parse(responseBody);",
+							"    for(var i = 0; i < body.length; i++) {",
+							"        if(body[i].id === pm.variables.get('slipId')) {",
+							"            checker = 1;",
+							"        }",
+							"    }",
+							"    pm.expect(checker).to.equal(0);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/slips",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slips"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create Another Boat",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cfbf49b9-266c-4fae-ad11-42a4ae26f7fa",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"pm.environment.set(\"boatId\", body.id);",
+							"pm.environment.set(\"boatUrl\", body.self);",
+							"pm.environment.set(\"boatName\", body.name);",
+							"pm.environment.set(\"boatType\", body.type);",
+							"pm.environment.set(\"boatLength\", body.length);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"name\": \"boat1\",\n\"length\": 50,\n\"type\": \"sail boat\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/boat",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Boat",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "735e5ca7-3321-4860-8252-aba176131610",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"name\": \"{{newName}}\",\n\"type\": \"{{newType}}\",\n\"length\": {{newLength}}\n}"
+				},
+				"url": {
+					"raw": "{{URL}}{{boatUrl}}",
+					"host": [
+						"{{URL}}{{boatUrl}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Boat Edits",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dcd9862f-8ba2-4f3f-a62d-cb7bbaa20d92",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"var name = body.name;",
+							"var type = body.type;",
+							"var length = body.length;",
+							"",
+							"pm.test(\"name matches\", function () {",
+							"    pm.expect(name).to.equal(pm.variables.get('newName'));",
+							"});",
+							"pm.test(\"type matches\", function () {",
+							"    pm.expect(type).to.equal(pm.variables.get('newType'));",
+							"});",
+							"pm.test(\"length matches\", function () {",
+							"    pm.expect(length).to.equal(parseInt(pm.variables.get('newLength')));",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}{{boatUrl}}",
+					"host": [
+						"{{URL}}{{boatUrl}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create Another Slip",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5804e4c2-32d7-41ac-aa7c-ee74a3ff5b04",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"pm.environment.set(\"slipId\", body.id);",
+							"pm.environment.set(\"slipUrl\", body.self);",
+							"pm.environment.set(\"currentBoat\", body.current_boat);",
+							"pm.environment.set(\"slipNumber\", body.number);",
+							"pm.environment.set(\"arrivalDate\", body.arrival_date);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"number\": 1}"
+				},
+				"url": {
+					"raw": "{{URL}}/slip",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slip"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Slip",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eebd8d3f-fb1c-4f91-abc5-4782d259d6f9",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"number\": 2}"
+				},
+				"url": {
+					"raw": "{{URL}}{{slipUrl}}",
+					"host": [
+						"{{URL}}{{slipUrl}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Slip Edit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dd76434c-3619-4f06-a174-4853fdd266f6",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"var number = body.number;",
+							"",
+							"pm.test(\"number matches\", function () {",
+							"    pm.expect(number).to.equal(2);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}{{slipUrl}}",
+					"host": [
+						"{{URL}}{{slipUrl}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Slip is Empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ffc88a50-bcdc-415f-8804-e12f85127799",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"current_boat = body.current_boat;",
+							"",
+							"pm.test(\"Current Boat is empty\", function () {",
+							"    pm.expect(current_boat).to.equal(null);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}{{slipUrl}}",
+					"host": [
+						"{{URL}}{{slipUrl}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Boat At Sea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "239505ce-6e36-483c-8b07-bfe4b7a05534",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"at_sea = body.at_sea;",
+							"",
+							"pm.test(\"Boat is at sea\", function () {",
+							"    pm.expect(at_sea).to.equal(true);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}{{boatUrl}}",
+					"host": [
+						"{{URL}}{{boatUrl}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add Boat to Slip",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8c9b5e82-0f17-45be-ba1c-ffb0a9feb126",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"current_boat\": \"{{boatId}}\",\n\"arrival_date\": \"2/4/2018\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/slips/{{slipId}}/boat",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slips",
+						"{{slipId}}",
+						"boat"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Boat is in Slip",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1f99ae47-eae4-4f05-ba58-974a3f377743",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"current_boat = body.current_boat;",
+							"boat_url = body.current_boat_url;",
+							"",
+							"",
+							"pm.test(\"Current Boat matches\", function () {",
+							"    pm.expect(current_boat).to.equal(pm.variables.get('boatId'));",
+							"});",
+							"pm.test(\"Boat url matches\", function () {",
+							"    pm.expect(boat_url).to.equal(pm.variables.get('boatUrl'));",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}{{slipUrl}}",
+					"host": [
+						"{{URL}}{{slipUrl}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Boat is Not At Sea anymore",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ad15bfe7-e92a-41b9-820d-2a10051ab00f",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"at_sea = body.at_sea;",
+							"",
+							"pm.test(\"at_sea is False\", function () {",
+							"    pm.expect(at_sea).to.equal(false);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}{{boatUrl}}",
+					"host": [
+						"{{URL}}{{boatUrl}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Boat",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6b46a8ed-1d00-4d00-9bc2-e7094fbca702",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/boat/{{boatId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat",
+						"{{boatId}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Slip is empty again",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "80b69114-c29b-46d8-8940-c9cca630c0cf",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"current_boat = body.current_boat;",
+							"",
+							"pm.test(\"Current Boat is empty\", function () {",
+							"    pm.expect(current_boat).to.equal(null);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}{{slipUrl}}",
+					"host": [
+						"{{URL}}{{slipUrl}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create another boat",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "df86d9ac-a2c5-4a97-a7fc-bbad61f57a29",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"pm.environment.set(\"boatId\", body.id);",
+							"pm.environment.set(\"boatUrl\", body.self);",
+							"pm.environment.set(\"boatName\", body.name);",
+							"pm.environment.set(\"boatType\", body.type);",
+							"pm.environment.set(\"boatLength\", body.length);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"name\": \"boat1\",\n\"length\": 50,\n\"type\": \"sail boat\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/boat",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add boat to slip again",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c27ab85c-5b4c-457f-aa58-959b3d0b05c9",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"current_boat\": \"{{boatId}}\",\n\"arrival_date\": \"2/4/2018\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/slips/{{slipId}}/boat",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slips",
+						"{{slipId}}",
+						"boat"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Slip",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "657d973f-e2e4-42e0-9eeb-c1a389736c29",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/slip/{{slipId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slip",
+						"{{slipId}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Boat back at sea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b62df62f-6085-4b94-b684-ff8606ebf8b7",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"at_sea = body.at_sea",
+							"",
+							"pm.test(\"Boat back at sea\", function () {",
+							"    pm.expect(at_sea).to.equal(true);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}{{boatUrl}}",
+					"host": [
+						"{{URL}}{{boatUrl}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid Boat Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8fed7b54-8d07-4baa-a95a-752f698f1959",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"400 response\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "{{URL}}/boat",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid Slip Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "24a2d074-cd5c-43fe-8fb5-a0de46a6c792",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"400 response\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "{{URL}}/slip",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slip"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid Boat Get",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e0a15f31-be4a-4479-aaca-62665194ff9a",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"404 response\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/boat/{{InvalidValue}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat",
+						"{{InvalidValue}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid Slip Get",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e0a15f31-be4a-4479-aaca-62665194ff9a",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"404 response\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/slip/{{InvalidValue}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slip",
+						"{{InvalidValue}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid Boat Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e0a15f31-be4a-4479-aaca-62665194ff9a",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"404 response\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/boat/{{InvalidValue}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat",
+						"{{InvalidValue}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid Slip Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e0a15f31-be4a-4479-aaca-62665194ff9a",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"404 response\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/slip/{{InvalidValue}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slip",
+						"{{InvalidValue}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid Boat Edit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "08a5d7e5-5eb3-4702-9a24-0fd4ae839d56",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"404 response\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "{{URL}}{{boatUrl}}",
+					"host": [
+						"{{URL}}{{boatUrl}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid Slip Edit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5cb12ae4-8228-4a99-b1e6-9541796c6be1",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"404 response\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "{{URL}}{{slipUrl}}",
+					"host": [
+						"{{URL}}{{slipUrl}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
